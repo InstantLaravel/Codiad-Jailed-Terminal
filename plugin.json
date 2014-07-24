@@ -1,0 +1,10 @@
+[ { "author" : "Fluidbyte/HiroKws",
+    "version" : "1.0",
+    "name" : "Terminal-Jailed",
+    "url" : "https://github.com/InstantLaravel/Codiad-Jailed-Terminal",
+    "rightbar" : [{
+        "action" : "codiad.terminal.open();",
+        "icon" : "icon-monitor",
+        "title" : "端末"
+        }]
+  } ]
