@@ -96,23 +96,30 @@
 
             if($this->command == '') $this->command = 'pwd';
 
-            // セキュアにするためダブルクオートとアクセント記号をシングルクオートに変換
-            $this->command = strtr($this->command, ['"'=>"'",'`'=>"'"]);
-
-            // コマンド許可リストとエイリアスの処理
-            if (ALLOWED != '') {
+            // ホワイトリストが指定されているか、エイリアスが登録されていれば処理
+            if (ALLOWED != '' || !empty($this->aliases)) {
                 $allowedCommands = explode(',', ALLOWED);
                 $executeCommands = explode('|', $this->command);
+                $parsedCommands = '';
                 foreach($executeCommands as $executeCommand) {
                     $tokens = explode(' ', trim($executeCommand));
+                    // エイリアスに登録されているかチェック
                     if( array_key_exists( $tokens[0], $this->aliases)) {
-                        $this->command = $this->aliases[$tokens[0]];
+                        $tokens[0] = $this->aliases[$tokens[0]];
+                        $commandString = implode(' ', $tokens);
+                        $parsedCommands .= ' | '.$commandString;
+                    // ホワイトリストへ登録されているかチェック
                     } elseif(!in_array( $tokens[0], $allowedCommands )) {
+                        // 非登録
                         $aliasToString = implode(',', array_keys($this->aliases));
-                        $this->command = 'echo 許可されているコマンドは、'.ALLOWED.'とエイリアスの'.$aliasToString.'だけです。'; 
+                        $this->command = 'echo 許可されているコマンドは、'.ALLOWED.'とエイリアスの'.$aliasToString.'だけです。';
                         break;
+                    } else {
+                        $parsedCommands .= ' | '.$executeCommand;
                     }
                 }
+
+                $this->command = trim($parsedCommands, ' |');
             }
 
             // cdのみの処理
@@ -216,7 +223,7 @@
             }
             // no support
             else{
-                $this->output = 'このシステムでは、このコマンドを実行できません。';
+                $this->output = 'このシステムでは、コマンドを実行できません。';
             }
         }
 
