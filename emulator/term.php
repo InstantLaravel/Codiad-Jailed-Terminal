@@ -31,7 +31,7 @@
     //////////////////////////////////////////////////////////////////
 
 //    define('ROOT',WORKSPACE . '/' . $_SESSION['project']);
-    define('ALLOWED','cd,ls,pwd,composer');
+    define('ALLOWED','cd,ls,pwd,php,composer');
     define('BLOCKED','ssh,telnet');
     define('JAILED', true);
 
@@ -44,6 +44,7 @@
     // エイリアス定義
     private $aliases = [
         'artisan' => 'php artisan',
+        'yii' => 'php yii',
         'la' => 'ls -a',
         'll' => 'ls -l',
         ];
