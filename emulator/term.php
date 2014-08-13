@@ -31,7 +31,7 @@
     //////////////////////////////////////////////////////////////////
 
 //    define('ROOT',WORKSPACE . '/' . $_SESSION['project']);
-    define('ALLOWED','cd,ls,pwd,php,composer');
+    define('ALLOWED','cd,ls,pwd');
     define('BLOCKED','ssh,telnet');
     define('JAILED', true);
 
